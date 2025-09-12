@@ -1,0 +1,41 @@
+        
+pipeline{
+    agent any
+        stages{
+        
+        stage ('checkout scm') {
+            steps {
+                git 'https://github.com/anji103/vprofile-project.git'
+            }
+        }
+        stage ('maven compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+        stage ('maven Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+     
+
+
+       stage ('Build and push to docker hub'){
+            steps{
+                script{
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+                        sh "docker build -t blue1 ."
+                        sh "docker tag blue  anji103/blue1:latest"
+                        sh "docker push anji103/blue1:latest"
+                   }
+                }
+            }
+        }
+                stage ('Deploy to container'){
+            steps{
+                sh 'docker run -d --name pet1 -p 8080:8080 anji103/petshop:latest'
+            }
+        }
+        }
+}
