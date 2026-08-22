@@ -8,5 +8,4 @@ COPY /index.html /usr/share/nginx/html
 # Expose the Tomcat default port
 EXPOSE 8080
 
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+
