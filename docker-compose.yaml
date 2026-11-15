@@ -1,0 +1,10 @@
+
+services:
+  tomcat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tomcat-app
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
